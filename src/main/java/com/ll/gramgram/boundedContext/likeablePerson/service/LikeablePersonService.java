@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,11 +36,20 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
-        List<LikeablePerson>  fromLikeablePeople = member.getInstaMember().getFromLikeablePeople();
+        List<LikeablePerson> fromLikeablePeople = member.getInstaMember().getFromLikeablePeople();
 
         for(LikeablePerson likeablePerson : fromLikeablePeople) {
-            if (likeablePerson.getToInstaMemberUsername().equals(username)) {
+            if (likeablePerson.getToInstaMemberUsername().equals(username) && likeablePerson.getAttractiveTypeCode() == attractiveTypeCode) {
                 return RsData.of("F-3", "중복 호감상대를 등록할 수 없습니다.");
+            }
+        }
+
+        for(LikeablePerson likeablePerson : fromLikeablePeople) {
+            if (likeablePerson.getToInstaMemberUsername().equals(username) && likeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
+                String beforeAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName();
+                likeablePerson.updateAttractiveTypeCode(attractiveTypeCode);
+                likeablePersonRepository.save(likeablePerson);
+                return RsData.of("S-2", "%s에 대한 호감 사유를 %s, %s로 변경합니다.".formatted(username, beforeAttractiveTypeDisplayName, likeablePerson.getAttractiveTypeDisplayName()), likeablePerson);
             }
         }
 
