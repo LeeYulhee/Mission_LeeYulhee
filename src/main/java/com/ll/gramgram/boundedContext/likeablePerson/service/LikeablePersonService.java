@@ -35,6 +35,18 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
+        List<LikeablePerson>  fromLikeablePeople = member.getInstaMember().getFromLikeablePeople();
+
+        for(LikeablePerson likeablePerson : fromLikeablePeople) {
+            if (likeablePerson.getToInstaMemberUsername().equals(username)) {
+                return RsData.of("F-3", "중복 호감상대를 등록할 수 없습니다.");
+            }
+        }
+
+        if(fromLikeablePeople.size() >= 10) {
+            return RsData.of("F-4", "10명이 넘는 호감 상대를 등록할 수 없습니다.");
+        }
+
         LikeablePerson likeablePerson = LikeablePerson
                 .builder()
                 .fromInstaMember(fromInstaMember) // 호감을 표시하는 사람의 인스타 멤버
@@ -44,14 +56,8 @@ public class LikeablePersonService {
                 .attractiveTypeCode(attractiveTypeCode) // 1=외모, 2=능력, 3=성격
                 .build();
 
-        for(LikeablePerson likeablePerson1 : member.getInstaMember().getFromLikeablePeople()) {
-            if (likeablePerson.getFromInstaMemberUsername().equals(likeablePerson1.getFromInstaMemberUsername())) {
-                return RsData.of("F-3", "중복 호감상대를 등록할 수 없습니다.");
-            }
-        }
-
-
         likeablePersonRepository.save(likeablePerson); // 저장
+
 
         // 너가 좋아하는 호감표시 생겼어.
         fromInstaMember.addFromLikeablePerson(likeablePerson);
