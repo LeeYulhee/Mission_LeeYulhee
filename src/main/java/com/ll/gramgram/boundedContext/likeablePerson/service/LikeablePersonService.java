@@ -1,6 +1,5 @@
 package com.ll.gramgram.boundedContext.likeablePerson.service;
 
-import com.ll.gramgram.base.rq.Rq;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
@@ -11,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -39,13 +36,9 @@ public class LikeablePersonService {
         List<LikeablePerson> fromLikeablePeople = member.getInstaMember().getFromLikeablePeople();
 
         for(LikeablePerson likeablePerson : fromLikeablePeople) {
-            if (likeablePerson.getToInstaMemberUsername().equals(username) && likeablePerson.getAttractiveTypeCode() == attractiveTypeCode) {
+            if (likeablePerson.getToInstaMember().getId().equals(toInstaMember.getId()) && likeablePerson.getAttractiveTypeCode() == attractiveTypeCode) {
                 return RsData.of("F-3", "중복 호감상대를 등록할 수 없습니다.");
-            }
-        }
-
-        for(LikeablePerson likeablePerson : fromLikeablePeople) {
-            if (likeablePerson.getToInstaMemberUsername().equals(username) && likeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
+            } else if (likeablePerson.getToInstaMember().getId().equals(toInstaMember.getId()) && likeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
                 String beforeAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName();
                 likeablePerson.updateAttractiveTypeCode(attractiveTypeCode);
                 likeablePersonRepository.save(likeablePerson);
@@ -86,6 +79,10 @@ public class LikeablePersonService {
 
     public Optional<LikeablePerson> findById(Long id) {
         return likeablePersonRepository.findById(id);
+    }
+
+    public List<LikeablePerson> findByToInstaMemberUsername(String toInstaMemberUsername) {
+        return likeablePersonRepository.findByToInstaMemberUsername(toInstaMemberUsername);
     }
 
     @Transactional
