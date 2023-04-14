@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
