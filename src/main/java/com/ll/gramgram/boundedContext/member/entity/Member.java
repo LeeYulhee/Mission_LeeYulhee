@@ -50,4 +50,9 @@ public class Member extends BaseEntity {
     public boolean hasConnectedInstaMember() {
         return instaMember != null;
     }
+
+    public String getNickname() {
+        return "%04d".formatted(getId());
+        // % : 명령 시작, 0 : 채워질 문자, 4 : 자리수, d : 십진수
+    }
 }
