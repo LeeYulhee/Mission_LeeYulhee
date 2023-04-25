@@ -2,20 +2,19 @@ package com.ll.gramgram.boundedContext.member.entity;
 
 import com.ll.gramgram.base.baseEntity.BaseEntity;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
@@ -52,7 +51,7 @@ public class Member extends BaseEntity {
     }
 
     public String getNickname() {
-        return "%04d".formatted(getId());
-        // % : 명령 시작, 0 : 채워질 문자, 4 : 자리수, d : 십진수
+        // 최소 6자 이상
+        return "%1$4s".formatted(Long.toString(getId(), 36)).replace(' ', '0');
     }
 }
