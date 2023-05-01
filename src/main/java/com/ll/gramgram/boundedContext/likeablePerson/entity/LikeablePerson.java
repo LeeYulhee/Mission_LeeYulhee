@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,7 +41,21 @@ public class LikeablePerson extends BaseEntity {
 
     // 초 단위에서 올림 해주세요.
     public String getModifyUnlockDateRemainStrHuman() {
-        return "2시간 16분";
+        Duration duration = Duration.between(LocalDateTime.now(), modifyUnlockDate); // 두 시간의 차이
+        long seconds = duration.getSeconds(); // 차이를 초 단위로 변환
+        long minutes = (seconds % 3600) / 60; // 초를 분 단위로 변환
+        long hours = seconds / 3600; // 초를 시간 단위로 변환
+
+        if (seconds % 60 >= 30) { // 초가 30초 이상이면 분을 1분 올림
+            minutes += 1;
+        }
+
+        if (minutes == 60) { // 60분이면 1시간으로 변환
+            hours += 1;
+            minutes = 0;
+        }
+
+        return String.format("%d시간 %d분", hours, minutes);
     }
 
 
