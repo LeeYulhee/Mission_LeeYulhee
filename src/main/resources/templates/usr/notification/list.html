@@ -40,34 +40,16 @@
               <i class="fa-regular fa-message"></i>
               내용
             </div>
-            <div>
-              어떤 <span class="badge badge-primary" th:text="${notification.newGender}"></span>이 당신을 <span
-                    class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayName()}"></span> 때문에 좋아합니다.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-          <div class="flex flex-col gap-2">
-            <div>
-              <i class="fa-regular fa-clock"></i>
-              알림
-            </div>
-            <div>
-              <span class="badge badge-primary">23.04.27 12:12, 1시간 전</span>
-            </div>
-          </div>
-          <div class="mt-4 flex flex-col gap-2">
-            <div>
-              <i class="fa-regular fa-message"></i>
-              내용
-            </div>
-            <div>
-              어떤 <span class="badge badge-primary">여자</span>가 당신에 대한 호감사유를 <span
-                    class="badge badge-primary">외모</span>에서 <span class="badge badge-primary">성격</span>으로
-              변경했습니다.
+            <div th:each="likeablePerson : ${likeablePersons}">
+                <span th:if="${notification.typeCode == 'Like' and notification.fromInstaMember == likeablePerson.fromInstaMember}">
+                    어떤 <span class="badge badge-primary" th:text="${notification.oldGender}"></span>이 당신을 <span
+                        class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayName()}"></span> 때문에 좋아합니다.
+                </span>
+              <span th:if="${notification.typeCode == 'ModifyAttractiveType' and notification.fromInstaMember == likeablePerson.fromInstaMember}">
+                    어떤 <span class="badge badge-primary" th:text="${notification.oldGender}"></span>가 당신에 대한 호감사유를 <span
+                      class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayNameByCode(notification.oldAttractiveTypeCode)}"></span>에서 <span
+                      class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayName()}"></span>으로 변경했습니다.
+                </span>
             </div>
           </div>
         </div>

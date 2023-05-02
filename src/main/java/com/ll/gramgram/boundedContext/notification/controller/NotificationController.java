@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -32,12 +34,11 @@ public class NotificationController {
         }
 
         List<Notification> notifications = notificationService.findByToInstaMember(rq.getMember().getInstaMember());
-        LikeablePerson likeablePerson = likeablePersonService.findByToInstaMember(rq.getMember().getInstaMember().getId());
+        List<LikeablePerson> likeablePersons = likeablePersonService.findByToInstaMember(rq.getMember().getInstaMember().getId());
 
         model.addAttribute("notifications", notifications);
-        model.addAttribute("likeablePerson", likeablePerson);
+        model.addAttribute("likeablePersons", likeablePersons);
         model.addAttribute("currentTime", LocalDateTime.now());
-
 
         return "usr/notification/list";
     }

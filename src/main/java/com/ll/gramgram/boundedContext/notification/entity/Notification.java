@@ -2,6 +2,7 @@ package com.ll.gramgram.boundedContext.notification.entity;
 
 import com.ll.gramgram.base.baseEntity.BaseEntity;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
+import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -33,4 +34,9 @@ public class Notification extends BaseEntity {
     public long getLikeablePersonId() {
         return fromInstaMember.getId();
     }
+
+    @ManyToOne
+    private LikeablePerson oldAttractiveType;
+    @ManyToOne
+    private LikeablePerson newAttractiveType;
 }

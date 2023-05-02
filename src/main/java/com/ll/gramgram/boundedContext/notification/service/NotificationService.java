@@ -27,8 +27,8 @@ public class NotificationService {
                 .toInstaMember(likeablePerson.getToInstaMember())
                 .newAttractiveTypeCode(0)
                 .oldAttractiveTypeCode(likeablePerson.getAttractiveTypeCode())
-                .oldGender(null)
-                .newGender(likeablePerson.getToInstaMember().getGenderDisplayName())
+                .oldGender(likeablePerson.getFromInstaMember().getGenderDisplayName())
+                .newGender(null)
                 .typeCode("Like")
                 .build();
 
