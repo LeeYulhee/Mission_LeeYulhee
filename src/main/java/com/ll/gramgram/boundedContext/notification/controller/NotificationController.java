@@ -1,6 +1,8 @@
 package com.ll.gramgram.boundedContext.notification.controller;
 
 import com.ll.gramgram.base.rq.Rq;
+import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
+import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
 import com.ll.gramgram.boundedContext.notification.entity.Notification;
 import com.ll.gramgram.boundedContext.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/usr/notification")
@@ -18,6 +22,7 @@ import java.util.List;
 public class NotificationController {
     private final Rq rq;
     private final NotificationService notificationService;
+    private final LikeablePersonService likeablePersonService;
 
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
@@ -27,8 +32,12 @@ public class NotificationController {
         }
 
         List<Notification> notifications = notificationService.findByToInstaMember(rq.getMember().getInstaMember());
+        LikeablePerson likeablePerson = likeablePersonService.findByToInstaMember(rq.getMember().getInstaMember().getId());
 
         model.addAttribute("notifications", notifications);
+        model.addAttribute("likeablePerson", likeablePerson);
+        model.addAttribute("currentTime", LocalDateTime.now());
+
 
         return "usr/notification/list";
     }
