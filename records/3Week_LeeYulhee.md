@@ -29,6 +29,10 @@
   - [X] Service 쪽에서 취소에 관한 성공/실패를 return하는 메서드 확인 후 해당 부분에 F-3으로 실패 케이스 추가
   - [X] Entity에 추가한 getModifyUnlockDateRemainStrHuman이 뷰에 전달되는 내용 -> 현재 시간과 수정/삭제 가능한 시간 사이의 차 계산해서 return
 
+**[알림기능 구현]**
+    - [X] 어느 클래스에 어떤 내용을 구현해야 하는지 확인
+    - [X] 일단 페이지에서 알람 모양 누르면(usr/notification/list로 이동되면) 인스타 아이디가 없을 때 기존 usr/instaMember/connec URL로 연결되는 부분 usr/instaMember/connectByApi 연결되게 변경
+
 ### 특이사항 ###
 
 **[호감표시/호감사유변경 후, 개별 호감표시건에 대해서, 3시간 동안은 호감취소와 호감사유변경 불가]**
