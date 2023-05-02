@@ -31,12 +31,8 @@ public class Notification extends BaseEntity {
     private String newGender; // 해당사항 없으면 null
     private int newAttractiveTypeCode; // 해당사항 없으면 0
 
-    public long getLikeablePersonId() {
-        return fromInstaMember.getId();
+    public void markAsRead() {
+        this.readDate = LocalDateTime.now();
     }
 
-    @ManyToOne
-    private LikeablePerson oldAttractiveType;
-    @ManyToOne
-    private LikeablePerson newAttractiveType;
 }

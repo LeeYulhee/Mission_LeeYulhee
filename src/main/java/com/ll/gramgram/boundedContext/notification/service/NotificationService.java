@@ -56,4 +56,8 @@ public class NotificationService {
 
         return RsData.of("S-1", "%s님이 호감 사유를 변경하였습니다".formatted(likeablePerson), notification);
     }
+
+    public Notification save(Notification notification) {
+        return notificationRepository.save(notification);
+    }
 }

@@ -36,6 +36,13 @@ public class NotificationController {
         List<Notification> notifications = notificationService.findByToInstaMember(rq.getMember().getInstaMember());
         List<LikeablePerson> likeablePersons = likeablePersonService.findByToInstaMember(rq.getMember().getInstaMember().getId());
 
+        notifications.stream()
+                .filter(notification -> notification.getReadDate() == null)
+                .forEach(notification -> {
+                    notification.markAsRead();
+                    notificationService.save(notification);
+                });
+
         model.addAttribute("notifications", notifications);
         model.addAttribute("likeablePersons", likeablePersons);
         model.addAttribute("currentTime", LocalDateTime.now());

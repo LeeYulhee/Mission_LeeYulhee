@@ -36,9 +36,17 @@
   - [X] NotificationService에 Like가 발생하면 정보가 NotificationRepository에 저장되는 메서드 구현
   - [X] NotificationController에 LikeablePerson도 받아서 View에 전달할 수 있도록 작성(LikeablePersonService에도 메서드 추가)
   - [X] notification의 list.html에 성별과 사유가 전달되도록 수정
+  - [X] modifyAttractiveType 메서드 구현
+  - [X] notification의 list.html에 하드 코딩한 부분 수정 및 여러 건 발생했을 때 오류나 중복 등의 버그 수정
+  - [X] readDate 기능 추가
 
 ### 특이사항 ###
 
 **[호감표시/호감사유변경 후, 개별 호감표시건에 대해서, 3시간 동안은 호감취소와 호감사유변경 불가]**
 
   - 버튼이 기본적으로 비활성화 되어 있어서 해당 부분 활성화 후 테스트 완료
+
+**[알림기능 구현]**
+
+  - 전반적으로 어디에 구현해야 하는지는 알겠는데 클래스들을 서로 연결하는 과정이나 View로 넘기는 과정이 너무 어려워서 ChatGPT의 도움을 받으며 작성
+  - ChatGPT도 오류 코드를 많이 써서 해당 부분들을 찾아가며 수정하느라 시간이 굉장히 오래 걸리고 어려웠음

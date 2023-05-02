@@ -35,13 +35,9 @@ public class QNotification extends EntityPathBase<Notification> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifyDate = _super.modifyDate;
 
-    public final com.ll.gramgram.boundedContext.likeablePerson.entity.QLikeablePerson newAttractiveType;
-
     public final NumberPath<Integer> newAttractiveTypeCode = createNumber("newAttractiveTypeCode", Integer.class);
 
     public final StringPath newGender = createString("newGender");
-
-    public final com.ll.gramgram.boundedContext.likeablePerson.entity.QLikeablePerson oldAttractiveType;
 
     public final NumberPath<Integer> oldAttractiveTypeCode = createNumber("oldAttractiveTypeCode", Integer.class);
 
@@ -72,8 +68,6 @@ public class QNotification extends EntityPathBase<Notification> {
     public QNotification(Class<? extends Notification> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.fromInstaMember = inits.isInitialized("fromInstaMember") ? new com.ll.gramgram.boundedContext.instaMember.entity.QInstaMember(forProperty("fromInstaMember")) : null;
-        this.newAttractiveType = inits.isInitialized("newAttractiveType") ? new com.ll.gramgram.boundedContext.likeablePerson.entity.QLikeablePerson(forProperty("newAttractiveType"), inits.get("newAttractiveType")) : null;
-        this.oldAttractiveType = inits.isInitialized("oldAttractiveType") ? new com.ll.gramgram.boundedContext.likeablePerson.entity.QLikeablePerson(forProperty("oldAttractiveType"), inits.get("oldAttractiveType")) : null;
         this.toInstaMember = inits.isInitialized("toInstaMember") ? new com.ll.gramgram.boundedContext.instaMember.entity.QInstaMember(forProperty("toInstaMember")) : null;
     }
 
