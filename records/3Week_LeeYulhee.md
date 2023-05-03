@@ -39,6 +39,7 @@
   - [X] modifyAttractiveType 메서드 구현
   - [X] notification의 list.html에 하드 코딩한 부분 수정 및 여러 건 발생했을 때 오류나 중복 등의 버그 수정
   - [X] readDate 기능 추가
+  - [X] 호감 수정 시 기존 호감이 안 불러와지는 오류 발견 -> LikeablePerson에 int 매개변수를 받는 getAttractiveTypeDisplayName 생성해서 해결
 
 ### 특이사항 ###
 

@@ -47,7 +47,7 @@
                 </span>
               <span th:if="${notification.typeCode == 'ModifyAttractiveType' and notification.fromInstaMember == likeablePerson.fromInstaMember}">
                     어떤 <span class="badge badge-primary" th:text="${notification.oldGender}"></span>가 당신에 대한 호감사유를 <span
-                      class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayNameByCode(notification.oldAttractiveTypeCode)}"></span>에서 <span
+                      class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayName(notification.oldAttractiveTypeCode)}"></span>에서 <span
                       class="badge badge-primary" th:text="${likeablePerson.getAttractiveTypeDisplayName()}"></span>으로 변경했습니다.
                 </span>
             </div>

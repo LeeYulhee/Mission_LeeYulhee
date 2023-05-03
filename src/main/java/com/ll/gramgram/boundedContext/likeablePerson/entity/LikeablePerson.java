@@ -67,10 +67,18 @@ public class LikeablePerson extends BaseEntity {
         this.attractiveTypeCode = attractiveTypeCode;
         this.modifyUnlockDate = AppConfig.genLikeablePersonModifyUnlockDate();
 
-        return RsData.of("S-1", "성공");
+        return RsData.of("S-1", "성공", attractiveTypeCode);
     }
 
     public String getAttractiveTypeDisplayName() {
+        return switch (attractiveTypeCode) {
+            case 1 -> "외모";
+            case 2 -> "성격";
+            default -> "능력";
+        };
+    }
+
+    public String getAttractiveTypeDisplayName(int attractiveTypeCode) {
         return switch (attractiveTypeCode) {
             case 1 -> "외모";
             case 2 -> "성격";
