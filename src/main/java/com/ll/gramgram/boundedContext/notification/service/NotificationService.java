@@ -7,57 +7,62 @@ import com.ll.gramgram.boundedContext.notification.entity.Notification;
 import com.ll.gramgram.boundedContext.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     public List<Notification> findByToInstaMember(InstaMember toInstaMember) {
-        return notificationRepository.findByToInstaMember(toInstaMember);
+        return notificationRepository.findByToInstaMemberOrderByIdDesc(toInstaMember);
     }
 
-    // 작성 코드
-    public RsData<Notification> create(LikeablePerson likeablePerson) {
+    @Transactional
+    public RsData<Notification> makeLike(LikeablePerson likeablePerson) {
+        return make(likeablePerson, "LIKE", 0, null);
+    }
+
+    @Transactional
+    public RsData<Notification> makeModifyAttractive(LikeablePerson likeablePerson, int oldAttractiveTypeCode) {
+        return make(likeablePerson, "MODIFY_ATTRACTIVE_TYPE", oldAttractiveTypeCode, likeablePerson.getFromInstaMember().getGender());
+    }
+
+    private RsData<Notification> make(LikeablePerson likeablePerson, String typeCode, int oldAttractiveTypeCode, String oldGender) {
         Notification notification = Notification
                 .builder()
-                .fromInstaMember(likeablePerson.getFromInstaMember())
+                .typeCode(typeCode)
                 .toInstaMember(likeablePerson.getToInstaMember())
-                .newAttractiveTypeCode(0)
-                .oldAttractiveTypeCode(likeablePerson.getAttractiveTypeCode())
-                .oldGender(likeablePerson.getFromInstaMember().getGenderDisplayName())
-                .newGender(null)
-                .typeCode("Like")
-                .build();
-
-        notificationRepository.save(notification);
-
-        return RsData.of("S-1", "%s님이 호감 상대로 추가되었습니다".formatted(likeablePerson), notification);
-    }
-
-    public RsData<Notification> modifyAttractiveType(LikeablePerson likeablePerson, int oldAttractiveTypeCode) {
-        InstaMember fromInstaMember = likeablePerson.getFromInstaMember();
-        InstaMember toInstaMember = likeablePerson.getToInstaMember();
-
-        Notification notification = Notification
-                .builder()
-                .fromInstaMember(fromInstaMember)
-                .toInstaMember(toInstaMember)
-                .newAttractiveTypeCode(likeablePerson.getAttractiveTypeCode())
+                .fromInstaMember(likeablePerson.getFromInstaMember())
                 .oldAttractiveTypeCode(oldAttractiveTypeCode)
-                .oldGender(fromInstaMember.getGenderDisplayName())
-                .newGender(toInstaMember.getGenderDisplayName())
-                .typeCode("ModifyAttractiveType")
+                .oldGender(oldGender)
+                .newAttractiveTypeCode(likeablePerson.getAttractiveTypeCode())
+                .newGender(likeablePerson.getFromInstaMember().getGender())
                 .build();
 
         notificationRepository.save(notification);
 
-        return RsData.of("S-1", "%s님이 호감 사유를 변경하였습니다".formatted(likeablePerson), notification);
+        return RsData.of("S-1", "알림 메세지가 생성되었습니다.", notification);
     }
 
-    public Notification save(Notification notification) {
-        return notificationRepository.save(notification);
+    public List<Notification> findByToInstaMember_username(String username) {
+        return notificationRepository.findByToInstaMember_usernameOrderByIdDesc(username);
+    }
+
+    @Transactional
+    public RsData markAsRead(List<Notification> notifications) {
+        notifications
+                .stream()
+                .filter(notification -> !notification.isRead())
+                .forEach(Notification::markAsRead);
+
+        return RsData.of("S-1", "읽음 처리 되었습니다.");
+    }
+
+    public boolean countUnreadNotificationsByToInstaMember(InstaMember instaMember) {
+        return notificationRepository.countByToInstaMemberAndReadDateIsNull(instaMember) > 0;
     }
 }
