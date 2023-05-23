@@ -74,4 +74,5 @@ public class InstaMemberController {
 
         return "redirect:/oauth2/authorization/instagram";
     }
+
 }
