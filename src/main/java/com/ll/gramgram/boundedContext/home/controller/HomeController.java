@@ -47,4 +47,19 @@ public class HomeController {
     public String showHistoryBackTest(HttpSession session) {
         return rq.historyBack("여기는 당신같은 사람이 오면 안되요.");
     }
+
+    @GetMapping("/usr/home/termsOfUse")
+    public String showTermsOfUse() {
+        return "usr/home/termsOfUse";
+    }
+
+    @GetMapping("/usr/home/privacyPolicy")
+    public String showPrivacyPolicy() {
+        return "usr/home/privacyPolicy";
+    }
+
+    @GetMapping("/usr/home/dataDeletion")
+    public String showDataDeletion() {
+        return "usr/home/dataDeletion";
+    }
 }
